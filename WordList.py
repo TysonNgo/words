@@ -35,7 +35,7 @@ class WordList(object):
 			for word in words:
 				if len(word) > 0:
 					try:
-						word_dict[word[0]].append(word)
+						word_dict[word[0].lower()].append(word)
 					except KeyError as e:
 						print(word+" is not a valid word")
 		elif isinstance(words, type({})):
