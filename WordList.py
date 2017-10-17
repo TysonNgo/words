@@ -12,18 +12,34 @@ class WordList(object):
 			with open(self.filename) as f:
 				self.words = json.load(f)
 		else:
-			self.words = {}
+			self.words = self.__get_empty_abc_dict()
 
-			a = ord("a")
-			z = ord("z")
-			for i in range(z-a+1):
-				c = chr(a+i)
-				self.words[c] = []
 			with open(self.filename, "w") as f:
 				json.dump(self.words, f, indent=self.indent)
 
-	def append_to_words(self, word_dict):
-		"""word_dict is a dict of (key, value) pair ("a"-"z", [str, ...])"""
+	def __get_empty_abc_dict(self):
+		words = {}
+		a = ord("a")
+		z = ord("z")
+		for i in range(z-a+1):
+			c = chr(a+i)
+			words[c] = []
+		return words
+
+	def append_to_words(self, words):
+		"""words is one of:
+		- a dict of (key, value) pair ("a"-"z", [str, ...])
+		- a list of str"""
+		if isinstance(words, type([])):
+			word_dict = self.__get_empty_abc_dict()
+			for word in words:
+				if len(word) > 0:
+					try:
+						word_dict[word[0]].append(word)
+					except KeyError as e:
+						print(word+" is not a valid word")
+		elif isinstance(words, type({})):
+			word_dict = words
 
 		for letter in word_dict:
 			# validate key
