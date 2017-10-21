@@ -2,15 +2,27 @@ from datetime import datetime
 from random import randint
 from scrapers import Websites
 from time import sleep, time
-from WordList import WordList
+from utils import clean
+from utils.WordList import WordList
 import inspect
 
 def delay():
 	sleep(randint(1,3))
 
 def main():
-	classes = dict([member for member in inspect.getmembers(Websites, inspect.isclass) if member[1].__module__ == "scrapers.Websites"])
-	
+	accept = input("Scrape websites in scrapers/Websites.py? y/n ")
+
+	if accept != "y":
+		return
+
+	classes = {}
+
+	for member in inspect.getmembers(Websites, inspect.isclass):
+		if member[1].__module__ == "scrapers.Websites":
+			accept = input("Scrape %s? " % (member[0],))
+			if accept == "y":
+				classes[member[0]] = member[1]
+
 	json_path = "words/%s.json"
 
 	for c in classes:
@@ -24,5 +36,7 @@ def main():
 			delay()
 		print("Collected words from", c, "in", time()-start_time, "seconds")
 
+
 if __name__ == "__main__":
 	main()
+	clean()

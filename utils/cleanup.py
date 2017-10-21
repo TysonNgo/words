@@ -1,6 +1,6 @@
 from glob import glob
 from os import path, sep
-from WordList import WordList
+from .WordList import WordList
 import json
 import re
 
@@ -62,8 +62,7 @@ class CleanUp(object):
 		with open(self.filename, "w") as f:
 			json.dump(self.words, f, indent=self.indent)
 
-
-if __name__ == "__main__":
+def clean():
 	def print_removed_from(cleanup):
 		def print_removed(to_remove):
 			removed = getattr(cleanup, "remove_"+to_remove)()
@@ -89,3 +88,7 @@ if __name__ == "__main__":
 		
 		print ("Writing new JSON to", cleanup.filename)
 		cleanup.update()
+
+
+if __name__ == "__main__":
+	clean()
