@@ -58,6 +58,9 @@ class CleanUp(object):
 	def remove_periods(self):
 		return self.remove_regex_from_words("\.")
 
+	def remove_hyphens(self):
+		return self.remove_regex_from_words("-")
+
 	def update(self):
 		with open(self.filename, "w") as f:
 			json.dump(self.words, f, indent=self.indent)
@@ -83,6 +86,7 @@ def clean():
 		remove("periods")
 		remove("non_roman_alphabets")
 		remove("multiple_words")
+		remove("hyphens")
 		print("Remaining word count:\t", cleanup.get_total_words())
 		print("Total word count:\t", cleanup.initial_word_count)
 		
