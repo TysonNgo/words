@@ -73,6 +73,7 @@ def clean():
 		return print_removed
 
 	filenames = glob("words/*.json")
+	words = set()
 
 	for filename in filenames:
 		cleanup = CleanUp(filename)
@@ -92,6 +93,11 @@ def clean():
 		
 		print ("Writing new JSON to", cleanup.filename)
 		cleanup.update()
+		for c in cleanup.words:
+			words |= set([word.lower() for word in cleanup.words[c]])
+
+	with open("words.txt", "w") as f:
+		f.write("\n".join(sorted(list(words))))
 
 
 if __name__ == "__main__":
