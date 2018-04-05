@@ -4,17 +4,18 @@ import json
 import requests
 import re
 
+base = "https://en.wikipedia.org"
+
 def random_wiki_article():
-	url = "https://en.wikipedia.org/wiki/Special:Random"
+	url = base+"/wiki/Special:Random"
 	#url = "https://en.wikipedia.org/wiki/Carposina_telesia"
 	return requests.get(url)
 
-def get_wiki_links(html: str, visited: set):
-	urls = []
+def get_wiki_links(html: str):
+	urls = set()
 	for url in re.findall('"(/wiki/.*?)"', html):
-		if ":" not in url and url not in visited:
-			urls.append(url)
-			visited |= set([url])
+		if ":" not in url:
+			urls |= set([url])
 	return urls
 
 def get_words(html: str):
@@ -26,25 +27,41 @@ def get_words(html: str):
 	return [w.strip(".,!?<>()[]{}\"';:*") for w in result.split() if re.match("^[a-z]+$", w)]
 
 def write_words():
-	with open("words.txt") as f:
-		words = set(f.read().splitlines())
 	with open("words.json") as f:
 		words = set(json.load(f).keys())
 	with open("words.txt", "w") as f:
 		f.write("\n".join(sorted(list(words))))
 
 def main():
-	words = {}
+	try:
+		with open("words.json") as f:
+			words = json.load(f) or {}
+	except: words = {}
 
-	articles = 300
+	try:
+		with open("visited.json") as f:
+			visited = json.load(f) or {}
+	except: visited = {}
+
+	articles = 0
 	article = random_wiki_article()
-	visited = set(re.findall("/wiki/.*", article.url))
-	links = []
+	links = set()
 
-	while articles > 0:
+	while True:
+		sleep(0.5)
+
+		wiki = re.findall("/wiki/.*", article.url)[0]
+		if wiki in visited:
+			if not links:
+				break
+			article = requests.get(base+links.pop())
+			continue
+		else:
+			visited[wiki] = ""
+
 		html = article.content.decode("utf-8")
-		if len(visited) < articles:
-			links += get_wiki_links(html, visited)
+		
+		links |= get_wiki_links(html)
 
 		for word in get_words(html):
 			if word in words:
@@ -52,17 +69,17 @@ def main():
 			else:
 				words[word] = 1
 
-		url = "https://en.wikipedia.org"+links.pop()
-		article = requests.get(url)
+		print(articles,"Getting words from %s" % (article.url,))
 
-		sleep(0.5)
-		print(articles,"Getting words from %s" % (url,))
-		articles -= 1
+		if articles % 10 == 0:
+			with open("words.json", "w") as f:
+				json.dump(words, f, indent=2)
+			with open("visited.json", "w") as f:
+				json.dump(visited, f, indent=2)
 
-	with open("words.json", "w") as f:
-		json.dump(words, f, indent=2)
+		articles += 1
 
 if __name__ == "__main__":
 	main()
-	write_words()
+	#write_words()
 
