@@ -8,3 +8,5 @@ Each list of English words is located in a file called `words.txt` in the root o
 `dictionary` - acquires a list of English words by scraping dictionary websites
 
 `book` - acquires a list of English words from ebooks
+
+`wiki` - acquires a list of English words from wikipedia pages' p tags
