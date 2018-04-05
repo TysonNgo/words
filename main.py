@@ -79,7 +79,14 @@ def main():
 
 		articles += 1
 
+def run():
+	try:
+		main()
+	except Exception as ex:
+		print(ex)
+		run()
+
 if __name__ == "__main__":
-	main()
+	run()
 	#write_words()
 
