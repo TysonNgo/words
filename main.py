@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from time import sleep
 import json
+import os
 import requests
 import re
 
@@ -71,11 +72,12 @@ def main():
 
 		print(articles,"Getting words from %s" % (article.url,))
 
-		if articles % 10 == 0:
+		if articles % 100 == 0:
 			with open("words.json", "w") as f:
 				json.dump(words, f, indent=2)
 			with open("visited.json", "w") as f:
 				json.dump(visited, f, indent=2)
+			os.system("sh push.sh")
 
 		articles += 1
 
