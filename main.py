@@ -52,6 +52,7 @@ if __name__ == "__main__":
 	words = Words()
 	filename = WordQueue.get_filename("/remaining")
 	print filename
-	add_words_del(filename, words)
+	if filename:
+		add_words_del(filename, words)
 
 	merge_intermediate_jsons()
