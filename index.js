@@ -3,13 +3,13 @@ const express = require('express');
 const app = express();
 
 const glob = require('glob');
-const wikiextractorPath = require('./config').wikiextractorPath;
+const wikiextractorOutPath = require('./config').wikiextractorOutPath;
 
 var files = getFiles();
 var visited = new Set();
 
 function getFiles(popLast=true){
-	let files = glob.sync(wikiextractorPath+'/extracted/**/wiki_*')
+	let files = glob.sync(wikiextractorOutPath+'/**/wiki_*')
 	if (popLast){
 		files.pop(); // the last file will be open for writing by WikiExtractor.py
 	}
