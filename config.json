@@ -1,0 +1,4 @@
+{
+    "wikiextractorPath": "./wikiextractor",
+    "port": 3000
+}
