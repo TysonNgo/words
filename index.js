@@ -38,11 +38,7 @@ app.get('/', (req, res) => {
 // be obtained from this endpoint
 app.get('/remaining', (req, res) => {
 	let files = getFiles(false);
-	if (files.length === 1){
-		res.json({'filename': files[0]});
-	} else {
-		res.redirect('/');
-	}
+	res.json({'filename': files.pop()});
 })
 
 app.listen(PORT, () => console.log(`app listening on port ${PORT}`))
