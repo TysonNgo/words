@@ -36,12 +36,12 @@ class WordQueue():
 		port = json.load(f)["port"]
 
 	@staticmethod
-	def get_filename(route='/'):
+	def get_filename(route="/"):
 		"""gets a filename of a file in wikiextractor/extracted
 		from a node.js server (index.js)
 		"""
 		res = None
-		try: res = urllib2.urlopen('http://localhost:'+str(WordQueue.port)+route)
+		try: res = urllib2.urlopen("http://localhost:"+str(WordQueue.port)+route)
 		except: pass # this block executes on 404
 
 		if res:

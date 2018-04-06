@@ -4,6 +4,7 @@ from time import sleep
 from Words import Words, WordQueue
 import json
 import os
+import sys
 
 def merge_intermediate_jsons():
 	words = {}
@@ -49,7 +50,7 @@ if __name__ == "__main__":
 
 	sleep(5)
 	words = Words()
-	filename = WordQueue.get_filename('/remaining')
+	filename = WordQueue.get_filename("/remaining")
 	print filename
 	add_words_del(filename, words)
 
