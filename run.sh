@@ -19,10 +19,15 @@ fi
 wikiextractor="wikiextractor/WikiExtractor.py"
 options="-b 500K -o extracted"
 
+echo "Running WikiExtractor.py"
 python $wikiextractor $1 $options > wikiextractor.log 2>&1 &
 sleep 10
+
+echo "Running index.js"
 node index.js > server.log 2>&1 &
 sleep 10
+
+echo "Running main.py"
 python main.py > words.log 2>&1 &
 
 tail -f words.log
