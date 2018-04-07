@@ -35,12 +35,11 @@ def main():
 			print filename
 			add_words_del(filename, words)
 			consecutive_tries = 0
-			words.add_words(filename)
 		else:
 			if consecutive_tries > 5:
-				return
+				return words.save()
 			consecutive_tries += 1
-			sleep(5)
+			sleep(10)
 
 
 if __name__ == "__main__":
@@ -54,5 +53,6 @@ if __name__ == "__main__":
 	print filename
 	if filename:
 		add_words_del(filename, words)
+		words.save()
 
 	merge_intermediate_jsons()

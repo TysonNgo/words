@@ -5,11 +5,12 @@ const app = express();
 const glob = require('glob');
 const wikiextractorOutPath = require('./config').wikiextractorOutPath;
 
-var files = getFiles();
 var visited = new Set();
+var files = getFiles();
 
 function getFiles(popLast=true){
 	let files = glob.sync(wikiextractorOutPath+'/**/wiki_*')
+	            .filter(f => {return !(visited.has(f))})
 	if (popLast){
 		files.pop(); // the last file will be open for writing by WikiExtractor.py
 	}
@@ -18,9 +19,6 @@ function getFiles(popLast=true){
 
 app.get('/', (req, res) => {
 	let file = files.pop();
-	while (visited.has(file)){
-		file = files.pop();
-	}
 	if (file){
 		res.json({'filename': file});
 		visited.add(file);
@@ -39,6 +37,14 @@ app.get('/', (req, res) => {
 app.get('/remaining', (req, res) => {
 	let files = getFiles(false);
 	res.json({'filename': files.pop()});
+})
+
+app.get('/status', (req, res) => {
+	res.json({
+		next_five: files.slice(files.length-5).reverse(),
+		remaining_in_queue: files.length,
+		visited: Array.from(visited).length
+	})
 })
 
 app.listen(PORT, () => console.log(`app listening on port ${PORT}`))

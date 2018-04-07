@@ -27,6 +27,7 @@ class Words():
 				else:
 					self.words[w] = 1
 
+	def save(self):
 		with open(self.out, "w") as f:
 			json.dump(self.words, f)
 
