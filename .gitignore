@@ -2,3 +2,6 @@ node_modules/
 wikiextractor/
 *.pyc
 package-lock.json
+*.log
+extracted/
+intermediate_jsons/
