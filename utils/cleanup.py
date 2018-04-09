@@ -49,6 +49,9 @@ class CleanUp(object):
 	def remove_proper_nouns(self):
 		return self.remove_regex_from_words("^[A-Z][a-z]*$")
 
+	def remove_vowelless_words(self):
+		return self.remove_regex_from_words("[aeiouy]", reverse_match=True)
+
 	def remove_abbreviations(self):
 		return self.remove_regex_from_words("^[A-Z]+$")
 
@@ -95,6 +98,7 @@ def clean():
 		remove("non_roman_alphabets")
 		remove("multiple_words")
 		remove("hyphens")
+		remove("vowelless_words")
 		remove("non_lowercase_words")
 		print("Remaining word count:\t", cleanup.get_total_words())
 		print("Total word count:\t", cleanup.initial_word_count)
