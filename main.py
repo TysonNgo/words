@@ -1,4 +1,5 @@
 from functools import reduce
+from glob import glob
 from pathlib import Path
 import json
 import requests
@@ -28,6 +29,15 @@ def download_jsons():
 				with open(JSON, "w") as f:
 					json.dump(requests.get(url).json(), f)
 
+def cleanup(words: set):
+	for filename in glob("manual_word_removal/*char.txt"):
+		with open(filename) as f:
+			WORDS = f.read().split("\n")
+
+		for w in WORDS:
+			try: words.remove(w)
+			except: pass
+
 def main():
 	download_jsons()
 
@@ -41,6 +51,8 @@ def main():
 	mw_com = set(reduce(lambda x, y: x+y, mw_com.values()))
 
 	fin_set = (mw_com | d_com) & words
+
+	cleanup(fin_set)
 
 	with open("words.txt", "w") as f:
 		f.write("\n".join(sorted(
