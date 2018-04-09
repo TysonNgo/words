@@ -63143,7 +63143,6 @@ dzongka
 dzongkha
 dzos
 dzungaria
-e
 ea
 eaceworm
 each
@@ -138812,7 +138811,6 @@ nzpa
 nzrfu
 nzse
 nzso
-o
 oa
 oaf
 oafish
@@ -213473,7 +213471,6 @@ tzupo
 tzuris
 tzut
 tzute
-u
 ua
 uae
 uakari
@@ -229572,7 +229569,6 @@ xysts
 xystum
 xystus
 xyz
-y
 ya
 yaaas
 yaar

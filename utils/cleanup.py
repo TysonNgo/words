@@ -61,6 +61,9 @@ class CleanUp(object):
 	def remove_multiple_words(self):
 		return self.remove_regex_from_words("\s")
 
+	def remove_len1_words(self):
+		return self.remove_regex_from_words("^[bcdefghjklmnopqrstuvwxyz]$")
+
 	def remove_apostrophes(self):
 		return self.remove_regex_from_words("'")
 
@@ -99,6 +102,7 @@ def clean():
 		remove("multiple_words")
 		remove("hyphens")
 		remove("vowelless_words")
+		remove("len1_words")
 		remove("non_lowercase_words")
 		print("Remaining word count:\t", cleanup.get_total_words())
 		print("Total word count:\t", cleanup.initial_word_count)
