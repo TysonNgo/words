@@ -54,10 +54,15 @@ def main():
 
 	cleanup(fin_set)
 
+	"""
 	with open("words.txt", "w") as f:
 		f.write("\n".join(sorted(
 			list(fin_set),
 		key=lambda x: len(x))))
+	"""
+
+	with open("valid_words.json", "w") as f:
+		json.dump(list(fin_set), f)
 
 if __name__ == "__main__":
 	main()
